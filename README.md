@@ -35,5 +35,7 @@ src/
    └─ dtos/                   # Validación de entrada
 ```
 
-Despliegue en **Vercel con CI/CD**: cada push en la rama `main` activa un workflow de GitHub Actions que construye y publica automáticamente en Vercel.
+Mejoras: Se realizaría despliegue en **Vercel con CI/CD**: cada push en la rama `main` activa un workflow de GitHub Actions que construye y publica automáticamente en Vercel. 
+
+Así mismo se pueden incluir pruebas unitarias con jest
 ```

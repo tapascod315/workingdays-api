@@ -1,3 +1,4 @@
+// api/index.ts
 import 'reflect-metadata';
 import express from 'express';
 import serverless from 'serverless-http';
@@ -6,31 +7,30 @@ import { ExpressAdapter } from '@nestjs/platform-express';
 import { AppModule } from '../src/app.module';
 import { RequestMethod } from '@nestjs/common';
 
-let cachedHandler: any;
+// Bootstrap una sola vez al cargar el módulo
+const bootstrap = (async () => {
+  const server = express();
+
+  const app = await NestFactory.create(AppModule, new ExpressAdapter(server), {
+    logger: false,
+  });
+
+  // Prefijo global para tus rutas de API, manteniendo / y /health libres
+  app.setGlobalPrefix('api', {
+    exclude: [
+      { path: '/', method: RequestMethod.GET },
+      { path: '/health', method: RequestMethod.GET },
+    ],
+  });
+
+  await app.init(); // NUNCA app.listen() en Vercel
+  return serverless(server);
+})();
 
 export default async function handler(req: any, res: any) {
   try {
-    if (!cachedHandler) {
-      const server = express();
-
-      const app = await NestFactory.create(AppModule, new ExpressAdapter(server), {
-        logger: false,
-      });
-
-      // Prefijo global /api (para que tu /dates quede en /api/dates)
-      app.setGlobalPrefix('api', {
-        exclude: [
-          { path: '/', method: RequestMethod.GET },
-          { path: '/health', method: RequestMethod.GET },
-        ],
-      });
-
-      await app.init();
-      cachedHandler = serverless(server);
-    }
-
-    // IMPORTANTE: retorna la promesa de la función serverless
-    return cachedHandler(req, res);
+    const h = await bootstrap;     // espera la inicialización
+    return h(req, res);            // delega la request
   } catch (e) {
     console.error(e);
     return res.status(500).json({ error: 'Internal error' });

@@ -38,5 +38,4 @@ src/
 Despliegue en **Vercel con CI/CD**: cada push en la rama `main` activa un workflow de GitHub Actions que construye y publica automáticamente en Vercel.
 ```
 ---
-✍️ Proyecto desarrollado como prueba técnica para **Capta**, con arquitectura modular, principios **SOLID** y preparado para despliegue automático en Vercel.
 

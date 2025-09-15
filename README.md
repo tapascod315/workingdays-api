@@ -37,5 +37,3 @@ src/
 
 Despliegue en **Vercel con CI/CD**: cada push en la rama `main` activa un workflow de GitHub Actions que construye y publica automáticamente en Vercel.
 ```
----
-

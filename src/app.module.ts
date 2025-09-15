@@ -4,7 +4,8 @@ import { AppController } from './app.controller';
 
 @Module({
   imports: [DatesModule],
-  controllers: [AppController], // aquí agregamos la ruta raíz
+  controllers: [AppController],
 })
 export class AppModule {}
+
 

@@ -4,11 +4,12 @@ import { Controller, Get } from '@nestjs/common';
 export class AppController {
   @Get()
   root() {
-    return {
-      name: 'WorkingDays API',
-      status: 'ok',
-      version: '1.0.0',
-      endpoints: ['/dates'],
-    };
+    return { name: 'WorkingDays API', status: 'ok', version: '1.0.0', endpoints: ['/api/dates'] };
+  }
+
+  @Get('health')
+  health() {
+    return { status: 'ok' };
   }
 }
+
